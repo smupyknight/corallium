@@ -177,8 +177,8 @@ public:
         // vSeeds.push_back(CDNSSeedData("s3v3nh4cks.ddns.net", "s3v3nh4cks.ddns.net")); // Single node address
         // vSeeds.push_back(CDNSSeedData("178.254.23.111", "178.254.23.111"));           // Single node address
 
-        vSeeds.push_back(CDNSSeedData("45.76.220.207", "45.76.220.207"));
-        vSeeds.push_back(CDNSSeedData("185.92.223.14", "185.92.223.14"));
+        vSeeds.push_back(CDNSSeedData("159.203.98.65", "159.203.98.65"));
+        vSeeds.push_back(CDNSSeedData("138.197.78.138", "138.197.78.138"));
 
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 30);
@@ -277,8 +277,8 @@ public:
         // vSeeds.push_back(CDNSSeedData("s3v3nh4cks.ddns.net", "s3v3nh4cks.ddns.net"));
         // vSeeds.push_back(CDNSSeedData("88.198.192.110", "88.198.192.110"));
 
-        vSeeds.push_back(CDNSSeedData("45.76.220.207", "45.76.220.207"));
-        vSeeds.push_back(CDNSSeedData("185.92.223.14", "185.92.223.14"));
+        vSeeds.push_back(CDNSSeedData("159.203.98.65", "159.203.98.65"));
+        vSeeds.push_back(CDNSSeedData("138.197.78.138", "138.197.78.138"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 139); // Testnet pivx addresses start with 'x' or 'y'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 19);  // Testnet pivx script addresses start with '8' or '9'
