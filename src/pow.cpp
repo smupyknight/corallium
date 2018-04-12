@@ -126,7 +126,7 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits)
         return error("CheckProofOfWork() : nBits below minimum work");
 
     //printf("PoW Check Count: %d\n", nPoWCheckCount++);
-    printf("PoW nBits: nBits\n", nBits);
+    printf("PoW nBits: nBits%d\n", nBits);
 
     // Check proof of work matches claimed amount
     if (hash > bnTarget) {
