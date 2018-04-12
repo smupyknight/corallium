@@ -126,7 +126,8 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits)
         return error("CheckProofOfWork() : nBits below minimum work");
 
     //printf("PoW Check Count: %d\n", nPoWCheckCount++);
-    printf("PoW nBits: nBits%d\n", nBits);
+    //printf("PoW nBits: nBits%d\n", nBits);
+    printf("Target Hash: %s\n", bnTarget.ToString().c_str());
 
     // Check proof of work matches claimed amount
     if (hash > bnTarget) {
