@@ -657,7 +657,7 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
         int64_t nStart = GetTime();
         uint256 hashTarget = uint256().SetCompact(pblock->nBits);
 
-
+        LogPrintf("Just before while loop");
         while (true) {
             unsigned int nHashesDone = 0;
 
