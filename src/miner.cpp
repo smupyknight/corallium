@@ -483,12 +483,12 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
         pblock->nAccumulatorCheckpoint = nCheckpoint;
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 
-        CValidationState state;
-        if (!TestBlockValidity(state, *pblock, pindexPrev, false, false)) {
-            //LogPrintf("CreateNewBlock() : TestBlockValidity failed\n");
-            mempool.clear();
-            return NULL;
-        }
+//        CValidationState state;
+//        if (!TestBlockValidity(state, *pblock, pindexPrev, false, false)) {
+//            //LogPrintf("CreateNewBlock() : TestBlockValidity failed\n");
+//            mempool.clear();
+//            return NULL;
+//        }
     }
 
     return pblocktemplate.release();
@@ -522,11 +522,10 @@ int64_t nHPSTimerStart = 0;
 
 CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey, CWallet* pwallet, bool fProofOfStake)
 {
-    LogPrintf("----------------WithKey Start----------------\n");
     CPubKey pubkey;
     if (!reservekey.GetReservedKey(pubkey))
         return NULL;
-    LogPrintf("----------------WithKey After Null----------------\n");
+
     CScript scriptPubKey = CScript() << ToByteVector(pubkey) << OP_CHECKSIG;
     return CreateNewBlock(scriptPubKey, pwallet, fProofOfStake);
 }
