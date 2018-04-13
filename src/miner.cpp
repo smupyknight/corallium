@@ -593,7 +593,7 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
     LogPrintf("------------------Miner Was Started------------------\n");
 
     while (fGenerateBitcoins || fProofOfStake) {
-        LogPrintf("------------------In While------------------\n");
+        LogPrintf(fGenerateBitcoins ? "------------------fGenerateBitcoins------------------\n" : "------------------fProofOfStake------------------\n");
         if (fProofOfStake) {
             if (chainActive.Tip()->nHeight < Params().LAST_POW_BLOCK()) {
                 MilliSleep(5000);
