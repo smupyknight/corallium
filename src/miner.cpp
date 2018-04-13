@@ -448,8 +448,35 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
         if(fZerocoinActive && !CalculateAccumulatorCheckpoint(nHeight, nCheckpoint, mapAccumulators)){
             LogPrintf("%s: failed to get accumulator checkpoint\n", __func__);
         }
+
+// My Own PoW Miner Code Start
+        bool fNegative;
+        bool fOverflow;
+        uint256 bnTarget;
+        uint256 hash;
+        bnTarget.SetCompact(pblock->nBits, &fNegative, &fOverflow);
+
+        if (fNegative || bnTarget == 0 || fOverflow || bnTarget > Params().ProofOfWorkLimit())
+            return error("CheckProofOfWork() : nBits below minimum work");
+
+        hash = pblock->GetHash();
+//These 2 lines should be remained for the original miner.
         pblock->nAccumulatorCheckpoint = nCheckpoint;
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
+
+        int counter = 0;
+        while(hash > bnTarget)
+        {
+            ++pblock->nNonce;
+            if (pblock->nNonce == 0)
+            {
+                printf("NONCE WRAPPED, incrementing time");
+                ++pblock->nTime;
+            }
+            hash = pblock->GetHash();
+            LogPrintf("Count: %d, Hash: %s", ++counter, hash.ToString().c_str());
+        }
+// My Own PoW Miner Code End
 
         CValidationState state;
         if (!TestBlockValidity(state, *pblock, pindexPrev, false, false)) {
