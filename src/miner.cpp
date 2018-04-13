@@ -456,8 +456,10 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
         uint256 hash;
         bnTarget.SetCompact(pblock->nBits, &fNegative, &fOverflow);
 
-        if (fNegative || bnTarget == 0 || fOverflow || bnTarget > Params().ProofOfWorkLimit())
-            return error("CheckProofOfWork() : nBits below minimum work");
+        if (fNegative || bnTarget == 0 || fOverflow || bnTarget > Params().ProofOfWorkLimit()) {
+            LogPrintf("CheckProofOfWork() : nBits below minimum work");
+            return NULL;
+        }
 
         hash = pblock->GetHash();
 //These 2 lines should be remained for the original miner.
