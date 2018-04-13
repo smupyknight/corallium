@@ -450,38 +450,38 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
         }
 
 // My Own PoW Miner Code Start
-        bool fNegative;
-        bool fOverflow;
-        uint256 bnTarget;
-        uint256 hash;
-        bnTarget.SetCompact(pblock->nBits, &fNegative, &fOverflow);
+//        bool fNegative;
+//        bool fOverflow;
+//        uint256 bnTarget;
+//        uint256 hash;
+//        bnTarget.SetCompact(pblock->nBits, &fNegative, &fOverflow);
+//
+//        if (fNegative || bnTarget == 0 || fOverflow || bnTarget > Params().ProofOfWorkLimit()) {
+//            LogPrintf("CheckProofOfWork() : nBits below minimum work");
+//            return NULL;
+//        }
+//
+//        hash = pblock->GetHash();
+//
+//        int counter = 0;
+//        while(hash > bnTarget)
+//        {
+//            ++pblock->nNonce;
+//            if (pblock->nNonce == 0)
+//            {
+//                printf("NONCE WRAPPED, incrementing time");
+//                ++pblock->nTime;
+//            }
+//            hash = pblock->GetHash();
+//            //LogPrintf("Count: %d, Hash: %s\n", ++counter, hash.ToString().c_str());
+//        }
+//
+//
+//        LogPrintf("Proof Of Work Block Meet Target\n");
+// My Own PoW Miner Code End
 
-        if (fNegative || bnTarget == 0 || fOverflow || bnTarget > Params().ProofOfWorkLimit()) {
-            LogPrintf("CheckProofOfWork() : nBits below minimum work");
-            return NULL;
-        }
-
-        hash = pblock->GetHash();
-
-        int counter = 0;
-        while(hash > bnTarget)
-        {
-            ++pblock->nNonce;
-            if (pblock->nNonce == 0)
-            {
-                printf("NONCE WRAPPED, incrementing time");
-                ++pblock->nTime;
-            }
-            hash = pblock->GetHash();
-            //LogPrintf("Count: %d, Hash: %s\n", ++counter, hash.ToString().c_str());
-        }
-
-//These 2 lines should be remained for the original miner.
         pblock->nAccumulatorCheckpoint = nCheckpoint;
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
-
-        LogPrintf("Proof Of Work Block Meet Target\n");
-// My Own PoW Miner Code End
 
         CValidationState state;
         if (!TestBlockValidity(state, *pblock, pindexPrev, false, false)) {
@@ -590,7 +590,10 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
         fMintableCoins = pwallet->MintableCoins();
     }
 
+    LogPrintf("------------------Miner Was Started------------------\n");
+
     while (fGenerateBitcoins || fProofOfStake) {
+        LogPrintf("------------------In While------------------\n");
         if (fProofOfStake) {
             if (chainActive.Tip()->nHeight < Params().LAST_POW_BLOCK()) {
                 MilliSleep(5000);
