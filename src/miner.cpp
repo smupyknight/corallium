@@ -462,9 +462,6 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
         }
 
         hash = pblock->GetHash();
-//These 2 lines should be remained for the original miner.
-        pblock->nAccumulatorCheckpoint = nCheckpoint;
-        pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 
         int counter = 0;
         while(hash > bnTarget)
@@ -478,6 +475,10 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
             hash = pblock->GetHash();
             //LogPrintf("Count: %d, Hash: %s\n", ++counter, hash.ToString().c_str());
         }
+
+//These 2 lines should be remained for the original miner.
+        pblock->nAccumulatorCheckpoint = nCheckpoint;
+        pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 
         LogPrintf("Proof Of Work Block Meet Target\n");
 // My Own PoW Miner Code End
