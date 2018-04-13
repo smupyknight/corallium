@@ -591,6 +591,7 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
     }
 
     while (fGenerateBitcoins || fProofOfStake) {
+        LogPrintf("----------------In While----------------\n");
         if (fProofOfStake) {
             if (chainActive.Tip()->nHeight < Params().LAST_POW_BLOCK()) {
                 MilliSleep(5000);
@@ -614,7 +615,7 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
                 }
             }
         }
-
+        LogPrintf("----------------After first fProofOfStake----------------\n");
         //
         // Create new block
         //
@@ -622,11 +623,11 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
         CBlockIndex* pindexPrev = chainActive.Tip();
         if (!pindexPrev)
             continue;
-
+        LogPrintf("----------------After pIndexPrev return----------------\n");
         unique_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey(reservekey, pwallet, fProofOfStake));
         if (!pblocktemplate.get())
             continue;
-
+        LogPrintf("----------------After pBlockTemplateGet----------------\n");
         CBlock* pblock = &pblocktemplate->block;
         IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
@@ -646,7 +647,7 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
 
             continue;
         }
-
+        LogPrintf("----------------After second fProofOfStake----------------\n");
         LogPrintf("Running PIVXMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
             ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
