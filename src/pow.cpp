@@ -130,8 +130,6 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits)
         //return error("CheckProofOfWork() : hash doesn't match nBits");
     }
 
-    printf("New PoW block found\n");
-
     return true;
 }
 
