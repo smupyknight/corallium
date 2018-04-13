@@ -466,6 +466,9 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
         pblock->nAccumulatorCheckpoint = nCheckpoint;
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 
+        printf("Hash: %s\n", hash.ToString().c_str());
+        printf("Target: %s\n", bnTarget.ToString().c_str());
+
         int counter = 0;
         while(hash > bnTarget)
         {
@@ -476,7 +479,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
                 ++pblock->nTime;
             }
             hash = pblock->GetHash();
-            LogPrintf("Count: %d, Hash: %s", ++counter, hash.ToString().c_str());
+            LogPrintf("Count: %d, Hash: %s\n", ++counter, hash.ToString().c_str());
         }
 // My Own PoW Miner Code End
 
