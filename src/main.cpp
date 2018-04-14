@@ -4312,9 +4312,9 @@ bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool f
 {
     // Check proof of work matches claimed amount
     if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits))
-        // return false;
-         return state.DoS(50, error("CheckBlockHeader() : proof of work failed"),
-             REJECT_INVALID, "high-hash");
+        return false;
+//         return state.DoS(50, error("CheckBlockHeader() : proof of work failed"),
+//             REJECT_INVALID, "high-hash");
 
     // Version 4 header must be used after Params().Zerocoin_StartHeight(). And never before.
     if (block.GetBlockTime() > Params().Zerocoin_StartTime()) {
