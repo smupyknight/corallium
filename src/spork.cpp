@@ -115,8 +115,10 @@ int64_t GetSporkValue(int nSporkID)
     int64_t r = -1;
 
     if (mapSporksActive.count(nSporkID)) {
+        printf("-------------GetSporkValue: First If-------------\n");
         r = mapSporksActive[nSporkID].nValue;
     } else {
+        printf("-------------GetSporkValue: Second If-------------\n");
         if (nSporkID == SPORK_2_SWIFTTX) r = SPORK_2_SWIFTTX_DEFAULT;
         if (nSporkID == SPORK_3_SWIFTTX_BLOCK_FILTERING) r = SPORK_3_SWIFTTX_BLOCK_FILTERING_DEFAULT;
         if (nSporkID == SPORK_5_MAX_VALUE) r = SPORK_5_MAX_VALUE_DEFAULT;
