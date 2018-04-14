@@ -4340,7 +4340,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         return false;
         // return state.DoS(100, error("CheckBlock() : CheckBlockHeader failed"),
         //     REJECT_INVALID, "bad-header", true);
-
+printf("----------------CheckBlock: CheckBlockHeader Passed----------------\n");
     // Check timestamp
     LogPrint("debug", "%s: block=%s  is proof of stake=%d\n", __func__, block.GetHash().ToString().c_str(), block.IsProofOfStake());
     if (block.GetBlockTime() > GetAdjustedTime() + (block.IsProofOfStake() ? 180 : 7200)) // 3 minute future drift for PoS
