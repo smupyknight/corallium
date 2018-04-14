@@ -103,6 +103,8 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
         return NULL;
     CBlock* pblock = &pblocktemplate->block; // pointer for convenience
 
+    printf("--------------generated %s\n----------------", FormatMoney(pblock->vtx[0].vout[0].nValue));
+
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
     if (Params().MineBlocksOnDemand())
