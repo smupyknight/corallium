@@ -531,8 +531,8 @@ void CBudgetManager::FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, b
             LogPrint("masternode","CBudgetManager::FillBlockPayee - No Budget payment, nHighestCount = %d\n", nHighestCount);
         }
     } else {
-        LogPrintf("-------------FillBlockPayee: Correct Position Reached-------------\n");
-        LogPrintf("-------------FillBlockPayee: Block Value=%d-------------\n", blockValue);
+        printf("-------------FillBlockPayee: Correct Position Reached-------------\n");
+        printf("-------------FillBlockPayee: Block Value=%d-------------\n", blockValue);
         //miners get the full amount on these blocks
         txNew.vout[0].nValue = blockValue;
 
