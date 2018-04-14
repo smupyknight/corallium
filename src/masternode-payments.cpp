@@ -269,10 +269,10 @@ void FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStak
     printf("-------------FillBlockPayee: After Return-------------\n");
 
     if (IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) && budget.IsBudgetPaymentBlock(pindexPrev->nHeight + 1)) {
-        printf("-------------FillBlockPayee: After Return-------------\n");
+        printf("-------------FillBlockPayee: First If-------------\n");
         budget.FillBlockPayee(txNew, nFees, fProofOfStake);
     } else {
-        printf("-------------FillBlockPayee: After Return-------------\n");
+        printf("-------------FillBlockPayee: Second If-------------\n");
         masternodePayments.FillBlockPayee(txNew, nFees, fProofOfStake);
     }
 }
