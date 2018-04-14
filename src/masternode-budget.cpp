@@ -490,7 +490,7 @@ void CBudgetManager::CheckAndRemove()
 void CBudgetManager::FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake)
 {
     LOCK(cs);
-
+printf("-------------FillBlockPayee: Start-------------\n");
     CBlockIndex* pindexPrev = chainActive.Tip();
     if (!pindexPrev) return;
 
@@ -514,7 +514,7 @@ void CBudgetManager::FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, b
     }
 
     CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
-
+    printf("-------------FillBlockPayee: Before If-------------\n");
     if (fProofOfStake) {
         if (nHighestCount > 0) {
             unsigned int i = txNew.vout.size();
