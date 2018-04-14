@@ -418,7 +418,6 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
 
         if (!fProofOfStake) {
             //Masternode and general budget payments
-            printf("-------------CreateNewBlock: Fill Block Payee is called-------------\n");
             FillBlockPayee(txNew, nFees, fProofOfStake);
 
             //Make payee
