@@ -657,78 +657,101 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
         int64_t nStart = GetTime();
         uint256 hashTarget = uint256().SetCompact(pblock->nBits);
 
-        LogPrintf("Just before while loop");
         while (true) {
-            unsigned int nHashesDone = 0;
+            hash = pblock->GetHash();
 
-            uint256 hash;
-            while (true) {
-                hash = pblock->GetHash();
-
-                pblock->nNonce += 1;
-                nHashesDone += 1;
-                if ((pblock->nNonce & 0xFF) == 0)
-                    break;
-                if (hash <= hashTarget) {
-                    // Found a solution
-                    SetThreadPriority(THREAD_PRIORITY_NORMAL);
-                    LogPrintf("BitcoinMiner:\n");
-                    LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex(), hashTarget.GetHex());
-                    ProcessBlockFound(pblock, *pwallet, reservekey);
-                    SetThreadPriority(THREAD_PRIORITY_LOWEST);
-
-                    // In regression test mode, stop mining after a block is found. This
-                    // allows developers to controllably generate a block on demand.
-                    if (Params().MineBlocksOnDemand())
-                        throw boost::thread_interrupted();
-
-                    break;
-                }
-            }
-
-            // Meter hashes/sec
-            static int64_t nHashCounter;
-            if (nHPSTimerStart == 0) {
-                nHPSTimerStart = GetTimeMillis();
-                nHashCounter = 0;
-            } else
-                nHashCounter += nHashesDone;
-            if (GetTimeMillis() - nHPSTimerStart > 4000) {
-                static CCriticalSection cs;
-                {
-                    LOCK(cs);
-                    if (GetTimeMillis() - nHPSTimerStart > 4000) {
-                        dHashesPerSec = 1000.0 * nHashCounter / (GetTimeMillis() - nHPSTimerStart);
-                        nHPSTimerStart = GetTimeMillis();
-                        nHashCounter = 0;
-                        static int64_t nLogTime;
-                        if (GetTime() - nLogTime > 30 * 60) {
-                            nLogTime = GetTime();
-                            LogPrintf("hashmeter %6.0f khash/s\n", dHashesPerSec / 1000.0);
-                        }
-                    }
-                }
-            }
-
-            // Check for stop or if block needs to be rebuilt
-            boost::this_thread::interruption_point();
-            // Regtest mode doesn't require peers
-            if (vNodes.empty() && Params().MiningRequiresPeers())
+            pblock->nNonce += 1;
+            nHashesDone += 1;
+            if ((pblock->nNonce & 0xFF) == 0)
                 break;
-            if (pblock->nNonce >= 0xffff0000)
-                break;
-            if (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 60)
-                break;
-            if (pindexPrev != chainActive.Tip())
-                break;
+            if (hash <= hashTarget) {
+                // Found a solution
+                SetThreadPriority(THREAD_PRIORITY_NORMAL);
+                LogPrintf("BitcoinMiner:\n");
+                LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex(), hashTarget.GetHex());
+                ProcessBlockFound(pblock, *pwallet, reservekey);
+                SetThreadPriority(THREAD_PRIORITY_LOWEST);
 
-            // Update nTime every few seconds
-            UpdateTime(pblock, pindexPrev);
-            if (Params().AllowMinDifficultyBlocks()) {
-                // Changing pblock->nTime can change work required on testnet:
-                hashTarget.SetCompact(pblock->nBits);
+                // In regression test mode, stop mining after a block is found. This
+                // allows developers to controllably generate a block on demand.
+                if (Params().MineBlocksOnDemand())
+                    throw boost::thread_interrupted();
+
+                break;
             }
         }
+
+//        while (true) {
+//            unsigned int nHashesDone = 0;
+//
+//            uint256 hash;
+//            while (true) {
+//                hash = pblock->GetHash();
+//
+//                pblock->nNonce += 1;
+//                nHashesDone += 1;
+//                if ((pblock->nNonce & 0xFF) == 0)
+//                    break;
+//                if (hash <= hashTarget) {
+//                    // Found a solution
+//                    SetThreadPriority(THREAD_PRIORITY_NORMAL);
+//                    LogPrintf("BitcoinMiner:\n");
+//                    LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex(), hashTarget.GetHex());
+//                    ProcessBlockFound(pblock, *pwallet, reservekey);
+//                    SetThreadPriority(THREAD_PRIORITY_LOWEST);
+//
+//                    // In regression test mode, stop mining after a block is found. This
+//                    // allows developers to controllably generate a block on demand.
+//                    if (Params().MineBlocksOnDemand())
+//                        throw boost::thread_interrupted();
+//
+//                    break;
+//                }
+//            }
+//
+//            // Meter hashes/sec
+//            static int64_t nHashCounter;
+//            if (nHPSTimerStart == 0) {
+//                nHPSTimerStart = GetTimeMillis();
+//                nHashCounter = 0;
+//            } else
+//                nHashCounter += nHashesDone;
+//            if (GetTimeMillis() - nHPSTimerStart > 4000) {
+//                static CCriticalSection cs;
+//                {
+//                    LOCK(cs);
+//                    if (GetTimeMillis() - nHPSTimerStart > 4000) {
+//                        dHashesPerSec = 1000.0 * nHashCounter / (GetTimeMillis() - nHPSTimerStart);
+//                        nHPSTimerStart = GetTimeMillis();
+//                        nHashCounter = 0;
+//                        static int64_t nLogTime;
+//                        if (GetTime() - nLogTime > 30 * 60) {
+//                            nLogTime = GetTime();
+//                            LogPrintf("hashmeter %6.0f khash/s\n", dHashesPerSec / 1000.0);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            // Check for stop or if block needs to be rebuilt
+//            boost::this_thread::interruption_point();
+//            // Regtest mode doesn't require peers
+//            if (vNodes.empty() && Params().MiningRequiresPeers())
+//                break;
+//            if (pblock->nNonce >= 0xffff0000)
+//                break;
+//            if (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 60)
+//                break;
+//            if (pindexPrev != chainActive.Tip())
+//                break;
+//
+//            // Update nTime every few seconds
+//            UpdateTime(pblock, pindexPrev);
+//            if (Params().AllowMinDifficultyBlocks()) {
+//                // Changing pblock->nTime can change work required on testnet:
+//                hashTarget.SetCompact(pblock->nBits);
+//            }
+//        }
     }
 }
 
