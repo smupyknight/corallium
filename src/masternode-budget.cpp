@@ -490,7 +490,7 @@ void CBudgetManager::CheckAndRemove()
 void CBudgetManager::FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake)
 {
     LOCK(cs);
-printf("-------------FillBlockPayee: Start-------------\n");
+
     CBlockIndex* pindexPrev = chainActive.Tip();
     if (!pindexPrev) return;
 
@@ -514,7 +514,7 @@ printf("-------------FillBlockPayee: Start-------------\n");
     }
 
     CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
-    printf("-------------FillBlockPayee: Before If-------------\n");
+
     if (fProofOfStake) {
         if (nHighestCount > 0) {
             unsigned int i = txNew.vout.size();
@@ -531,8 +531,7 @@ printf("-------------FillBlockPayee: Start-------------\n");
             LogPrint("masternode","CBudgetManager::FillBlockPayee - No Budget payment, nHighestCount = %d\n", nHighestCount);
         }
     } else {
-        printf("-------------FillBlockPayee: Correct Position Reached-------------\n");
-        printf("-------------FillBlockPayee: Block Value=%d-------------\n", blockValue);
+
         //miners get the full amount on these blocks
         txNew.vout[0].nValue = blockValue;
 

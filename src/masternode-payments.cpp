@@ -261,12 +261,18 @@ bool IsBlockPayeeValid(const CBlock& block, int nBlockHeight)
 
 void FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStake)
 {
+    printf("-------------FillBlockPayee: Start-------------\n");
+
     CBlockIndex* pindexPrev = chainActive.Tip();
     if (!pindexPrev) return;
 
+    printf("-------------FillBlockPayee: After Return-------------\n");
+
     if (IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) && budget.IsBudgetPaymentBlock(pindexPrev->nHeight + 1)) {
+        printf("-------------FillBlockPayee: After Return-------------\n");
         budget.FillBlockPayee(txNew, nFees, fProofOfStake);
     } else {
+        printf("-------------FillBlockPayee: After Return-------------\n");
         masternodePayments.FillBlockPayee(txNew, nFees, fProofOfStake);
     }
 }
