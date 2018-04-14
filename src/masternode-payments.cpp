@@ -268,6 +268,7 @@ void FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, bool fProofOfStak
 
     printf("-------------FillBlockPayee: After Return-------------\n");
     printf("-------------SPORK_13 VALUE: %ld-------------\n", GetSporkValue(SPORK_13_ENABLE_SUPERBLOCKS));
+    printf(IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) ? "-------------SPORK_13 Active-------------\n" : "-------------SPORK_13 Inactive-------------\n");
 
     if (IsSporkActive(SPORK_13_ENABLE_SUPERBLOCKS) && budget.IsBudgetPaymentBlock(pindexPrev->nHeight + 1)) {
         printf("-------------FillBlockPayee: First If-------------\n");
