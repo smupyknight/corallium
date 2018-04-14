@@ -665,10 +665,6 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
             while (true) {
                 hash = pblock->GetHash();
 
-                pblock->nNonce += 1;
-                nHashesDone += 1;
-                if ((pblock->nNonce & 0xFF) == 0)
-                    break;
                 if (hash <= hashTarget) {
                     // Found a solution
                     SetThreadPriority(THREAD_PRIORITY_NORMAL);
@@ -684,6 +680,11 @@ void BitcoinMiner(CWallet* pwallet, bool fProofOfStake)
 
                     break;
                 }
+
+                pblock->nNonce += 1;
+                nHashesDone += 1;
+                if ((pblock->nNonce & 0xFF) == 0)
+                    break;
             }
 
             // Meter hashes/sec

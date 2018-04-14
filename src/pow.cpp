@@ -125,8 +125,6 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits)
 
     // Check proof of work matches claimed amount
     if (hash > bnTarget) {
-        LogPrintf("Hash: %s\n", hash.GetHex());
-        LogPrintf("Target: %s\n", bnTarget.GetHex());
         // return false;
         return error("CheckProofOfWork() : hash doesn't match nBits");
     }
